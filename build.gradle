@@ -1,3 +1,8 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'java'
+}
+
 group 'com.yunusoksuz'
 version '1.0-SNAPSHOT'
 
@@ -6,20 +11,20 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 def port = project.hasProperty("port") ? project.property("port") : '5000'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
-    }
-}
+//buildscript {
+//    repositories {
+//        jcenter()
+//    }
+//
+//    dependencies {
+//        classpath 'com.github.johnrengelman:shadow:8.1.1'
+//    }
+//}
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 
@@ -31,31 +36,31 @@ repositories {
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-simple:1.7.25'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
 }
 
-task replacePort(type: Copy) {
-    from('.') {
-        include 'Dockerfile.dist'
-        rename 'Dockerfile.dist', 'Dockerfile'
-        filter(ReplaceTokens, tokens: ['PORT': port])
-    }
-    into('.')
-}
+//task replacePort(type: Copy) {
+//    from('.') {
+//        include 'Dockerfile.dist'
+//        rename 'Dockerfile.dist', 'Dockerfile'
+//        filter(ReplaceTokens, tokens: ['PORT': port])
+//    }
+//    into('.')
+//}
 
 
-shadowJar {
-    baseName = 'tcp-proxy'
-    classifier = null
-    version = null
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
-}
+//shadowJar {
+//    baseName = 'tcp-proxy'
+//    classifier = null
+//    version = null
+//    manifest {
+//        attributes 'Main-Class': mainClassName
+//    }
+//}
 
-build {
-    dependsOn replacePort
-}
-
-build.finalizedBy shadowJar
+//build {
+//    dependsOn replacePort
+//}
+//
+//build.finalizedBy shadowJar
